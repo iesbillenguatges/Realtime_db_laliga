@@ -36,17 +36,17 @@ Aplicació web per gestionar una base de dades de jugadors de futbol utilitzant 
    git clone https://github.com/el-teu-usuari/gestio-jugadors-futbol.git
    cd gestio-jugadors-futbol
    ```
-2. **Obre index.html al navegador:
+2. **Obre index.html al navegador**:
 Pots obrir-lo directament o servir-lo amb una extensió de "Live Server" si estàs utilitzant VS Code.
 
-3. **Configura Firebase:
+3. **Configura Firebase**:
 
     - Ves a Firebase Console.
     - Crea un nou projecte.
     - Afegeix una base de dades de tipus Realtime Database.
     - Substitueix l’objecte firebaseConfig del fitxer index.html amb les dades del teu projecte.
 
-4, **Assegura’t que les regles de la base de dades (durant desenvolupament) permetin lectura/escriptura:
+4, **Assegura’t que les regles de la base de dades (durant desenvolupament) permetin lectura/escriptura**:
 ```
     {
       "rules": {
