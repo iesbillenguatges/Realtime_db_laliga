@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gestió de Jugadors de Futbol</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <style>
+    body {
+      background-color: #111;
+      color: #eee;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .w3-button {
+      margin: 5px;
+    }
+    .dark-panel {
+      background-color: #222;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    input, select {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 8px;
+      margin: 5px 0;
+      width: 100%;
+    }
+    table {
+      width: 100%;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #444;
+    }
+    tr:nth-child(even) {
+      background-color: #222;
+    }
+  </style>
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+</head>
+<body class="w3-container">
+
+  <h2 class="w3-center">Gestió de Jugadors de Futbol</h2>
+
+  <div class="dark-panel">
+    <label>Nom:</label>
+    <input type="text" id="nom">
+    <label>Equip:</label>
+    <select id="equip">
+      <option>FC Barcelona</option>
+      <option>Real Madrid</option>
+      <option>Atlético de Madrid</option>
+      <option>Sevilla FC</option>
+      <option>Real Sociedad</option>
+      <option>Real Betis</option>
+      <option>Villarreal CF</option>
+      <option>Valencia CF</option>
+      <option>Getafe CF</option>
+      <option>RCD Espanyol</option>
+    </select>
+    <label>Posició:</label>
+    <input type="text" id="posicio">
+    <label>Dorsal:</label>
+    <input type="number" id="dorsal">
+    <label>Edat:</label>
+    <input type="number" id="edat">
+    <button class="w3-button w3-black w3-hover-red" onclick="afegirJugador()">Afegir</button>
+    <br><br>
+    <label>ID per eliminar:</label>
+    <input type="text" id="idEliminar">
+    <button class="w3-button w3-red w3-hover-black" onclick="eliminarJugador()">Eliminar</button>
+    <button class="w3-button w3-dark-grey w3-hover-light-grey" onclick="llistarJugadors()">Llistar</button>
+  </div>
+
+  <div id="llistat" class="dark-panel"></div>
+
+  <script>
+    // Configuració Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBEeB6PNdhufTT0gvnxdEnXiAOdcpfHDtM",
+      authDomain: "iesbisegur.firebaseapp.com",
+      databaseURL: "https://iesbisegur-default-rtdb.firebaseio.com",
+      projectId: "iesbisegur",
+      storageBucket: "iesbisegur.appspot.com",
+      messagingSenderId: "547257165740",
+      appId: "1:547257165740:web:73ff0266e00fc2e5b13c09"
+    };
+
+    // Inicialització Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    function afegirJugador() {
+      const nom = document.getElementById("nom").value;
+      const equip = document.getElementById("equip").value;
+      const posicio = document.getElementById("posicio").value;
+      const dorsal = document.getElementById("dorsal").value;
+      const edat = document.getElementById("edat").value;
+
+      const id = db.ref().child("jugadors").push().key;
+      db.ref("jugadors/" + id).set({
+        nom, equip, posicio, dorsal, edat
+      });
+      alert("Jugador afegit!");
+    }
+
+    function eliminarJugador() {
+      const id = document.getElementById("idEliminar").value;
+      db.ref("jugadors/" + id).remove()
+        .then(() => alert("Jugador eliminat!"))
+        .catch(err => alert("Error: " + err));
+    }
+
+    function llistarJugadors() {
+      db.ref("jugadors").once("value", snapshot => {
+        const data = snapshot.val();
+        let html = "<table class='w3-table w3-bordered'><tr><th>ID</th><th>Nom</th><th>Equip</th><th>Posició</th><th>Dorsal</th><th>Edat</th></tr>";
+        for (let id in data) {
+          const j = data[id];
+          html += `<tr><td>${id}</td><td>${j.nom}</td><td>${j.equip}</td><td>${j.posicio}</td><td>${j.dorsal}</td><td>${j.edat}</td></tr>`;
+        }
+        html += "</table>";
+        document.getElementById("llistat").innerHTML = html;
+      });
+    }
+  </script>
+
+</body>
+</html>
