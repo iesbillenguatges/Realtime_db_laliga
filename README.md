@@ -46,7 +46,7 @@ Pots obrir-lo directament o servir-lo amb una extensió de "Live Server" si est�
     - Afegeix una base de dades de tipus Realtime Database.
     - Substitueix l’objecte firebaseConfig del fitxer index.html amb les dades del teu projecte.
 
-4, **Assegura’t que les regles de la base de dades (durant desenvolupament) permetin lectura/escriptura**:
+4, **Assegura’t que les regles de la base de dades permeten la lectura/escriptura**:
 ```
     {
       "rules": {
